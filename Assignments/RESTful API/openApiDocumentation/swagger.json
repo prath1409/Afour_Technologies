@@ -1,0 +1,254 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Contact Management API",
+        "description": "Contact api for contact management",
+        "version": "1.0.0",
+        "tags":"Crud",
+        "contact": {
+            "name": "Prathmesh Gheware",
+            "email": "prathmesh@afour"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080"
+        }
+    ],
+    "components":{
+        "schemas": {
+            "Contact":{
+                "type": "object",
+                "required":[
+                    "id",
+                    "name",
+                    "phone"
+                ],
+                "properties": {
+                    "id":{
+                        "type": "integer",
+                        "description": "Id of the contact"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of contact"
+                    },
+                    "phone": {
+                        "type": "integer",
+                        "description": "Phone number of contact"
+                    }
+                },
+                "example":{
+                    "id": 2,
+                    "name":"Prathmesh Gheware",
+                    "phone": 1234567890
+                }
+            },
+            "RequestbodyContact":{
+                "type": "object",
+                "required":[
+                    "name",
+                    "phone"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of contact"
+                    },
+                    "phone": {
+                        "type": "integer",
+                        "description": "Phone number of contact"
+                    }
+                },
+                "example":{
+                    "name":"Prathmesh Gheware",
+                    "phone": 1234567890
+                }
+            }
+        }
+    },
+    "paths": {
+        "/contacts": {
+            "get": {
+                "tags":["CRUD operations on contact list"],
+                "summary": "Summary of all contacts.",
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Contact"
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "description": "List not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/contacts/{id}": {
+            "get": {
+                "tags":["CRUD operations on contact list"],
+                "summary": "Summary of specfic contacts.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "required": true,
+                            "decription": "the contact Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Contact"
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "description": "Id not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/create-contact": {
+            "post": {
+                "tags":["CRUD operations on contact list"],
+                "summary": "new contact.",
+                "description": "should be json",
+                "requestBody": {
+                    "description": "Requires name and phone number of 10 digit.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestbodyContact"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Contact"
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/update/{id}": {
+            "put": {
+                "tags":["CRUD operations on contact list"],
+                "summary": "updated contact.",
+                "description": "should be json",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "required": true,
+                            "decription": "the contact Id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Requires name or phone number of 10 digit.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RequestbodyContact"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Contact"
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description": "Bad Request"
+                    },
+                    "404":{
+                        "description": "Id not Found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/delete/{id}": {
+            "delete": {
+                "tags":["CRUD operations on contact list"],
+                "summary": "deleted contacts.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "required": true,
+                            "decription": "the contact Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Contact"
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "description": "Id not Found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        }
+    }
+}
